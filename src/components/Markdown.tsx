@@ -26,12 +26,10 @@ const clean = (dirty: string) =>
     allowedIframeHostnames: [],
   });
 
-export const Markdown = ({ markdown }: {
-  markdown: string;
-}) => {
+export const Markdown = ({ markdown }: { markdown: string }) => {
   const renderedMarkdown = useMemo(
     () => clean(DOMPurify.sanitize(marked.parse(markdown))),
-    [markdown]
+    [markdown],
   );
 
   return (

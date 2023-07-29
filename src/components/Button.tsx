@@ -14,15 +14,21 @@ export default function Button({
     <button
       {...props}
       css={{
-        background: isDefault ? tokens.backgroundHigher : tokens.accentPrimaryDimmer,
+        background: isDefault
+          ? tokens.backgroundHigher
+          : tokens.accentPrimaryDimmer,
         color: tokens.foregroundDefault,
         padding: "4px 8px",
         borderRadius: 8,
         fontSize: 14,
-        border: `solid 1px ${isDefault ? tokens.backgroundHigher : tokens.accentPrimaryDimmer}`,
+        border: `solid 1px ${
+          isDefault ? tokens.backgroundHigher : tokens.accentPrimaryDimmer
+        }`,
         transition: "0.25s",
         "&:hover:not(:disabled)": {
-          background: isDefault ? tokens.backgroundHighest : tokens.accentPrimaryDefault,
+          background: isDefault
+            ? tokens.backgroundHighest
+            : tokens.accentPrimaryDefault,
         },
         "&:active": {
           borderColor: tokens.accentPrimaryStrongest,

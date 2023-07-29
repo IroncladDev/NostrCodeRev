@@ -8,6 +8,6 @@ export async function checkDiffs() {
 
   return {
     json,
-    output
+    output,
   };
 }

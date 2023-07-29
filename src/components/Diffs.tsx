@@ -15,7 +15,7 @@ function Line({
   newNumber?: number;
   oldNumber?: number;
 }) {
-  let bg = 'transparent';
+  let bg = "transparent";
   let fg = tokens.foregroundDefault;
 
   if (type === "delete") {
@@ -27,7 +27,10 @@ function Line({
   }
 
   return (
-    <div className="flex-row m12" css={{ fontSize: 12, background: bg, paddingLeft: 8 }}>
+    <div
+      className="flex-row m12"
+      css={{ fontSize: 12, background: bg, paddingLeft: 8 }}
+    >
       <code
         className="flex-row"
         css={{
@@ -35,7 +38,7 @@ function Line({
           MozUserSelect: "none",
           MsUserSelect: "none",
           WebkitUserSelect: "none",
-          marginRight: 8
+          marginRight: 8,
         }}
       >
         <span
@@ -58,7 +61,7 @@ function Line({
           {type === "context" ? " " : ""}
         </span>
       </code>
-      <pre css={{ color: fg, wordWrap: 'break-word', whiteSpace: 'pre-wrap' }}>
+      <pre css={{ color: fg, wordWrap: "break-word", whiteSpace: "pre-wrap" }}>
         {type === "context" ? content : content.slice(1)}
       </pre>
     </div>
@@ -73,17 +76,30 @@ function Diff(props: DiffFile & { isLast: boolean }) {
       className="flex-col"
       css={{
         background: tokens.backgroundHigher,
-        borderBottom: props.isLast ? 'none' : `1px solid ${tokens.backgroundHighest}`
+        borderBottom: props.isLast
+          ? "none"
+          : `1px solid ${tokens.backgroundHighest}`,
       }}
     >
-      <button onClick={() => setIsCollapsed(!collapsed)} css={{
-        '&:hover': {
-          background: tokens.backgroundHighest
-        },
-        transition: '0.25s',
-        borderRadius: 0
-      }}>
-        <div className="flex-row m8" css={{ padding: '4px 8px', borderBottom: collapsed ? 'none' : 'solid 1px ' + tokens.backgroundHighest }}>
+      <button
+        onClick={() => setIsCollapsed(!collapsed)}
+        css={{
+          "&:hover": {
+            background: tokens.backgroundHighest,
+          },
+          transition: "0.25s",
+          borderRadius: 0,
+        }}
+      >
+        <div
+          className="flex-row m8"
+          css={{
+            padding: "4px 8px",
+            borderBottom: collapsed
+              ? "none"
+              : "solid 1px " + tokens.backgroundHighest,
+          }}
+        >
           <span css={{ fontSize: 12 }}>{props.newName}</span>
 
           <div css={{ flexGrow: 1 }} />
@@ -93,9 +109,12 @@ function Diff(props: DiffFile & { isLast: boolean }) {
       </button>
 
       {collapsed ? null : (
-        <div className="flex-col" css={{
-          background: tokens.backgroundHigher
-        }}>
+        <div
+          className="flex-col"
+          css={{
+            background: tokens.backgroundHigher,
+          }}
+        >
           {props.blocks
             .map((block) => block.lines)
             .flat(1)
@@ -113,13 +132,20 @@ function Diff(props: DiffFile & { isLast: boolean }) {
   );
 }
 
-export default function Diffs({ diffs, onSubmit, onRetry }: { diffs: Array<DiffFile>; onSubmit: () => void; onRetry: () => void }) {
+export default function Diffs({
+  diffs,
+  onSubmit,
+  onRetry,
+}: {
+  diffs: Array<DiffFile>;
+  onSubmit: () => void;
+  onRetry: () => void;
+}) {
   return (
     <div css={{ padding: 8 }} className="flex-col m8">
-
       <span css={{ fontSize: 14 }}>Changed Files</span>
 
-      <div className="flex-col" css={{ borderRadius: 8, overflow: 'hidden' }}>
+      <div className="flex-col" css={{ borderRadius: 8, overflow: "hidden" }}>
         {diffs.map((diff, i) => (
           <Diff {...diff} key={i} isLast={i === diffs.length - 1} />
         ))}

@@ -9,7 +9,7 @@ import { useNDK, usePubKey, useRelay } from "./hooks/state";
 import Header from "./components/Header";
 import { X } from 'react-feather';
 import Loader from "./components/Loader";
-import { RELAYS } from "./state";
+import { progressAtom, ProgressResult, RELAYS } from "./state";
 import RelayUnReadyState from "./components/RelayUnReadyState";
 import Select from "./components/Select";
 import Button from "./components/Button";
@@ -17,6 +17,9 @@ import { checkDiffs } from "./lib/diff";
 import { DiffFile } from "diff2html/lib/types";
 import Diffs from "./components/Diffs";
 import { Markdown } from "./components/Markdown";
+import { useAtom } from 'jotai';
+import Progress from "./components/Progress";
+import { tokens } from "./ui";
 
 function App() {
   const { status } = useReplit();
@@ -37,7 +40,11 @@ function App() {
   const { status: relayStatus, setStatus, url } = useRelay();
   const { pubKey: pk, setPubKey } = usePubKey();
 
-  const [eventFeed, setEventFeed] = useState<NDKEvent[]>([]);
+  const [progress, setProgress] = useAtom(progressAtom);
+  const [eventFeed, setEventFeed] = useState<Array<{
+    status: ProgressResult;
+    event: NDKEvent;
+  }>>([]);
   const [sub, setSub] = useState<NDKSubscription | null>(null);
   const [diffs, setDiffs] = useState<Array<DiffFile>>([]);
 
@@ -70,9 +77,28 @@ function App() {
       },
       { closeOnEose: false, groupable: false },
     );
+
+    setEventFeed([]);
+
     newSub!.on("event", (event: NDKEvent) => {
-      // add event to event feed
-      setEventFeed((prevEventFeed) => [event, ...prevEventFeed]);
+      setProgress(p => {
+        let progressType: ProgressResult = p;
+
+        if (event.tags.find(x => x[0] === "status" && x[1] === "payment-required")) {
+          progressType = "received"
+        } else if (event.tags.find(x => x[0] === "status" && x[1] === "started")) {
+          progressType = "started"
+        } else if (event.tags.find(x => x[0] === "status" && x[1] === 'success')) {
+          progressType = "success"
+        }
+
+        setEventFeed((prevEventFeed) => [...prevEventFeed, {
+          event,
+          status: progressType,
+        }]);
+
+        return progressType;
+      })
     });
     setSub(newSub!);
 
@@ -173,37 +199,32 @@ ${mappedThemeValues.join("\n")}
           </div>
         </div>
 
-        {diffs.length > 0 ? <Diffs diffs={diffs} onSubmit={handleSubmit} onRetry={showDiffs}/> : null}
+        {diffs.length > 0 ? <Diffs diffs={diffs} onSubmit={handleSubmit} onRetry={showDiffs} /> : null}
+
+        {progress ? <Progress progress={progress} /> : null}
 
         {eventFeed.length > 0 && (
-          <div className="w-full mx-2 p-4 bg-white rounded-lg text-gray-800 my-4 overflow-y-auto">
-            {eventFeed.map((event, index) => {
+          <div css={{
+            padding: 8,
+          }}>
+            {eventFeed.filter(({ status }) => status === progress).map(({ event, status }, index) => {
               // Extract the necessary tag data
               const amountSats =
-                Number(event.tags.find((tag) => tag[0] === "amount")?.[1]) / 1000;
+                Number(event.tags.find((tag) => tag[0] === "amount")?.[1] || 0) / 1000;
 
               return (
-                <div
-                  key={index}
-                  className="border-b border-gray-200 p-2 flex justify-between items-center"
-                >
-                  <div>
-                    <div>
-                      <strong>From:</strong> {event.author.npub}
-                    </div>
-                    <div>
-                      <strong>Content:</strong>
-                      <Markdown markdown={event.content}/>
-                    </div>
-                  </div>
-                  {amountSats && (
-                    <button
-                      className="px-2 py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition duration-200"
-                      onClick={() => handleZap(event)} // assuming you're passing the event id to handleZap
-                    >
-                      Zap ⚡ {amountSats}
-                    </button>
-                  )}
+                <div key={index} css={{
+                  background: tokens.backgroundHigher,
+                  borderRadius: 8,
+                  padding: 8
+                }}>
+                  <Markdown markdown={event.content} />
+                  {amountSats > 0 ? (
+                    <Button
+                      onClick={() => handleZap(event)}
+                      text={`Zap ⚡ ${amountSats}`}
+                    />
+                  ) : null}
                 </div>
               );
             })}

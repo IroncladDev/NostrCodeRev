@@ -9,6 +9,8 @@ export const RELAYS = [
   "wss://relay.f7z.io",
 ];
 
+export type ProgressResult = null | "received" | "started" | "success";
+
 export const relayAtoms = {
   url: atom<string | undefined>(RELAYS[3]),
   status: atom<RelayStatus>("Pending"),
@@ -17,3 +19,5 @@ export const relayAtoms = {
 export const ndkAtom = atom<NDK | null>(null);
 
 export const pubKeyAtom = atom<string | undefined>(undefined);
+
+export const progressAtom = atom<ProgressResult>(null);
