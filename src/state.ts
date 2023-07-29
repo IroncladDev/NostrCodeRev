@@ -16,9 +16,4 @@ export const relayAtoms = {
 
 export const ndkAtom = atom<NDK | null>(null);
 
-export const modalAtoms = {
-  open: atom(false),
-  markdown: atom(""),
-}
-
 export const pubKeyAtom = atom<string | undefined>(undefined);

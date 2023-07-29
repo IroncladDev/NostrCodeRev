@@ -4,9 +4,8 @@ import "./App.css";
 import "websocket-polyfill";
 import NDK, { NDKEvent, NDKNip07Signer, NDKSubscription } from "@nostr-dev-kit/ndk";
 import type { NostrEvent } from "@nostr-dev-kit/ndk";
-import Modal from "react-modal";
 import { HandshakeStatus } from "@replit/extensions";
-import { useModal, useNDK, usePubKey, useRelay } from "./hooks/state";
+import { useNDK, usePubKey, useRelay } from "./hooks/state";
 import Header from "./components/Header";
 import { X } from 'react-feather';
 import Loader from "./components/Loader";
@@ -17,6 +16,7 @@ import Button from "./components/Button";
 import { checkDiffs } from "./lib/diff";
 import { DiffFile } from "diff2html/lib/types";
 import Diffs from "./components/Diffs";
+import { Markdown } from "./components/Markdown";
 
 function App() {
   const { status } = useReplit();
@@ -36,7 +36,6 @@ function App() {
   const { ndk, setNDK } = useNDK();
   const { status: relayStatus, setStatus, url } = useRelay();
   const { pubKey: pk, setPubKey } = usePubKey();
-  const { isOpen, setIsOpen, markdown, setMarkdown } = useModal();
 
   const [eventFeed, setEventFeed] = useState<NDKEvent[]>([]);
   const [sub, setSub] = useState<NDKSubscription | null>(null);
@@ -110,49 +109,9 @@ function App() {
       const pubkey = await window.nostr.getPublicKey();
       console.log("pubkey from Alby: ", pubkey);
       setPubKey(pubkey);
-
-      // const _relay = relayInit(relayUrl);
-
-      // _relay.on('connect', () => {
-      //   console.log(`connected to ${_relay.url}`);
-      //   setRelayStatus('Connected');
-      // });
-
-      // _relay.on('error', () => {
-      //   console.log(`failed to connect to ${_relay.url}`);
-      //   setRelayStatus('Disconnected');
-      // });
-
-      // _relay.connect().then(() => {
-      //   let sub = _relay.sub(
-      //     [
-      //       {
-      //         kinds: [68002],
-      //         "#p": [pk]
-      //       }
-      //     ]
-      //   )
-      //   sub.on('event', event => {
-      //     // Extract the customer's pubkey from the incoming event
-      //     console.log("saw event", event)
-      //     const eventExists = eventFeed.find(e => e.id === event.id);
-      //     setEventFeed([event, ...eventFeed]);
-      //   });
-      // }).catch((error) => {
-      //   console.log(`Failed to connect to ${_relay.url}: ${error}`);
-      //   setRelayStatus('Failed to connect');
-      // });
-
-      // setRelay(_relay);
     }
 
     init();
-
-    // return () => {
-    //   if (relay) {
-    //     relay.close();
-    //   }
-    // };
   }, [pk]);
 
   // Initialize Relay Connection
@@ -216,15 +175,6 @@ ${mappedThemeValues.join("\n")}
 
         {diffs.length > 0 ? <Diffs diffs={diffs} onSubmit={handleSubmit} onRetry={showDiffs}/> : null}
 
-        <Modal
-          isOpen={isOpen}
-          onRequestClose={() => setIsOpen(false)}
-          contentLabel="Content Modal"
-        >
-          <button onClick={() => setIsOpen(false)}>Close</button>
-          <div dangerouslySetInnerHTML={{ __html: markdown }}></div>
-        </Modal>
-
         {eventFeed.length > 0 && (
           <div className="w-full mx-2 p-4 bg-white rounded-lg text-gray-800 my-4 overflow-y-auto">
             {eventFeed.map((event, index) => {
@@ -243,18 +193,7 @@ ${mappedThemeValues.join("\n")}
                     </div>
                     <div>
                       <strong>Content:</strong>
-                      {event.content.length > 150 ? (
-                        <button
-                          onClick={() => {
-                            setIsOpen(true);
-                            setMarkdown(event.content);
-                          }}
-                        >
-                          Click for completed job output!
-                        </button>
-                      ) : (
-                        event.content
-                      )}
+                      <Markdown markdown={event.content}/>
                     </div>
                   </div>
                   {amountSats && (

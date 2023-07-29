@@ -1,17 +1,5 @@
 import { useAtom } from "jotai";
-import { modalAtoms, ndkAtom, pubKeyAtom, relayAtoms } from "../state";
-
-export function useModal() {
-  const [isOpen, setIsOpen] = useAtom(modalAtoms.open);
-  const [markdown, setMarkdown] = useAtom(modalAtoms.markdown);
-
-  return {
-    isOpen,
-    setMarkdown,
-    setIsOpen,
-    markdown,
-  };
-}
+import { ndkAtom, pubKeyAtom, relayAtoms } from "../state";
 
 export function useRelay() {
   const [url, setUrl] = useAtom(relayAtoms.url);
