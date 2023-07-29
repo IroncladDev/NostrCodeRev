@@ -1,5 +1,5 @@
-import { atom } from 'jotai';
-import { RelayStatus } from './components/RelayConnection';
+import { atom } from "jotai";
+import { RelayStatus } from "./components/RelayConnection";
 import NDK from "@nostr-dev-kit/ndk";
 
 export const RELAYS = [
@@ -14,7 +14,7 @@ export type ProgressResult = null | "received" | "started" | "success";
 export const relayAtoms = {
   url: atom<string | undefined>(RELAYS[3]),
   status: atom<RelayStatus>("Pending"),
-}
+};
 
 export const ndkAtom = atom<NDK | null>(null);
 

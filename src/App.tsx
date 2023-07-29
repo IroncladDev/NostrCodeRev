@@ -2,12 +2,16 @@ import { useReplit, useThemeValues } from "@replit/extensions-react";
 import { useState, useEffect } from "react";
 import "./App.css";
 import "websocket-polyfill";
-import NDK, { NDKEvent, NDKNip07Signer, NDKSubscription } from "@nostr-dev-kit/ndk";
+import NDK, {
+  NDKEvent,
+  NDKNip07Signer,
+  NDKSubscription,
+} from "@nostr-dev-kit/ndk";
 import type { NostrEvent } from "@nostr-dev-kit/ndk";
 import { HandshakeStatus } from "@replit/extensions";
 import { useNDK, usePubKey, useRelay } from "./hooks/state";
 import Header from "./components/Header";
-import { X } from 'react-feather';
+import { X } from "react-feather";
 import Loader from "./components/Loader";
 import { progressAtom, ProgressResult, RELAYS } from "./state";
 import RelayUnReadyState from "./components/RelayUnReadyState";
@@ -17,7 +21,7 @@ import { checkDiffs } from "./lib/diff";
 import { DiffFile } from "diff2html/lib/types";
 import Diffs from "./components/Diffs";
 import { Markdown } from "./components/Markdown";
-import { useAtom } from 'jotai';
+import { useAtom } from "jotai";
 import Progress from "./components/Progress";
 import { tokens } from "./ui";
 
@@ -28,12 +32,12 @@ function App() {
   const themeValues = useThemeValues();
   const mappedThemeValues = themeValues
     ? Object.entries(themeValues).map(
-      ([key, val]) =>
-        `--${key.replace(
-          /[A-Z]/g,
-          (c) => "-" + c.toLowerCase(),
-        )}: ${val} !important;`,
-    )
+        ([key, val]) =>
+          `--${key.replace(
+            /[A-Z]/g,
+            (c) => "-" + c.toLowerCase(),
+          )}: ${val} !important;`,
+      )
     : [];
 
   const { ndk, setNDK } = useNDK();
@@ -41,10 +45,12 @@ function App() {
   const { pubKey: pk, setPubKey } = usePubKey();
 
   const [progress, setProgress] = useAtom(progressAtom);
-  const [eventFeed, setEventFeed] = useState<Array<{
-    status: ProgressResult;
-    event: NDKEvent;
-  }>>([]);
+  const [eventFeed, setEventFeed] = useState<
+    Array<{
+      status: ProgressResult;
+      event: NDKEvent;
+    }>
+  >([]);
   const [sub, setSub] = useState<NDKSubscription | null>(null);
   const [diffs, setDiffs] = useState<Array<DiffFile>>([]);
 
@@ -81,24 +87,35 @@ function App() {
     setEventFeed([]);
 
     newSub!.on("event", (event: NDKEvent) => {
-      setProgress(p => {
+      setProgress((p) => {
         let progressType: ProgressResult = p;
 
-        if (event.tags.find(x => x[0] === "status" && x[1] === "payment-required")) {
-          progressType = "received"
-        } else if (event.tags.find(x => x[0] === "status" && x[1] === "started")) {
-          progressType = "started"
-        } else if (event.tags.find(x => x[0] === "status" && x[1] === 'success')) {
-          progressType = "success"
+        if (
+          event.tags.find(
+            (x) => x[0] === "status" && x[1] === "payment-required",
+          )
+        ) {
+          progressType = "received";
+        } else if (
+          event.tags.find((x) => x[0] === "status" && x[1] === "started")
+        ) {
+          progressType = "started";
+        } else if (
+          event.tags.find((x) => x[0] === "status" && x[1] === "success")
+        ) {
+          progressType = "success";
         }
 
-        setEventFeed((prevEventFeed) => [...prevEventFeed, {
-          event,
-          status: progressType,
-        }]);
+        setEventFeed((prevEventFeed) => [
+          ...prevEventFeed,
+          {
+            event,
+            status: progressType,
+          },
+        ]);
 
         return progressType;
-      })
+      });
     });
     setSub(newSub!);
 
@@ -125,7 +142,7 @@ function App() {
     if (dffs.json.length) {
       setDiffs(dffs.json);
     }
-  }
+  };
 
   useEffect(() => {
     async function init() {
@@ -167,17 +184,32 @@ function App() {
   }, [url]);
 
   if (status === HandshakeStatus.Error) {
-    return <div className="flex-row" css={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
-      <div className="flex-col m8" css={{ alignItems: 'center', maxWidth: 240 }}>
-        <X size={48} />
-        <h1 css={{ fontSize: 24, fontWeight: 600 }}>Failed to Connect</h1>
-        <p css={{ textAlign: 'center' }}>This extension couldn't establish a connection with Replit.</p>
+    return (
+      <div
+        className="flex-row"
+        css={{ alignItems: "center", justifyContent: "center", flexGrow: 1 }}
+      >
+        <div
+          className="flex-col m8"
+          css={{ alignItems: "center", maxWidth: 240 }}
+        >
+          <X size={48} />
+          <h1 css={{ fontSize: 24, fontWeight: 600 }}>Failed to Connect</h1>
+          <p css={{ textAlign: "center" }}>
+            This extension couldn't establish a connection with Replit.
+          </p>
+        </div>
       </div>
-    </div>;
+    );
   } else if (status === HandshakeStatus.Loading) {
-    return <div className="flex-row" css={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
-      <Loader size={32} />
-    </div>;
+    return (
+      <div
+        className="flex-row"
+        css={{ alignItems: "center", justifyContent: "center", flexGrow: 1 }}
+      >
+        <Loader size={32} />
+      </div>
+    );
   }
 
   return (
@@ -199,35 +231,49 @@ ${mappedThemeValues.join("\n")}
           </div>
         </div>
 
-        {diffs.length > 0 ? <Diffs diffs={diffs} onSubmit={handleSubmit} onRetry={showDiffs} /> : null}
+        {diffs.length > 0 ? (
+          <Diffs diffs={diffs} onSubmit={handleSubmit} onRetry={showDiffs} />
+        ) : null}
 
         {progress ? <Progress progress={progress} /> : null}
 
         {eventFeed.length > 0 && (
-          <div css={{
-            padding: 8,
-          }}>
-            {eventFeed.filter(({ status }) => status === progress).map(({ event, status }, index) => {
-              // Extract the necessary tag data
-              const amountSats =
-                Number(event.tags.find((tag) => tag[0] === "amount")?.[1] || 0) / 1000;
+          <div
+            css={{
+              padding: 8,
+            }}
+          >
+            {eventFeed
+              .filter(({ status }) => status === progress)
+              .map(({ event, status }, index) => {
+                // Extract the necessary tag data
+                const amountSats =
+                  Number(
+                    event.tags.find((tag) => tag[0] === "amount")?.[1] || 0,
+                  ) / 1000;
 
-              return (
-                <div key={index} css={{
-                  background: tokens.backgroundHigher,
-                  borderRadius: 8,
-                  padding: 8
-                }}>
-                  <Markdown markdown={event.content} />
-                  {amountSats > 0 ? (
-                    <Button
-                      onClick={() => handleZap(event)}
-                      text={`Zap ⚡ ${amountSats}`}
-                    />
-                  ) : null}
-                </div>
-              );
-            })}
+                return (
+                  <div
+                    className="flex-row m8"
+                    key={index}
+                    css={{
+                      background: tokens.backgroundHigher,
+                      borderRadius: 8,
+                      padding: 8,
+                    }}
+                  >
+                    <div>
+                      <Markdown markdown={event.content} />
+                    </div>
+                    {amountSats > 0 ? (
+                      <Button
+                        onClick={() => handleZap(event)}
+                        text={`Zap ⚡ ${amountSats}`}
+                      />
+                    ) : null}
+                  </div>
+                );
+              })}
           </div>
         )}
       </main>

@@ -111,3 +111,25 @@ a {
   color: var(--accent-primary-default);
   text-decoration: none;
 }
+
+.markdown > * {
+  margin-bottom: 8px;
+}
+
+.markdown p code {
+  background: var(--background-default);
+  padding: 2px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.markdown pre {
+  background: var(--background-default);
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.markdown > *:last-child {
+  margin-bottom: 0;
+}
