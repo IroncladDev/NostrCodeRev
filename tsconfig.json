@@ -15,8 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react",
-    "skipLibCheck": true,
+    "jsxImportSource": "@emotion/react"
   },
   "include": ["src", "custom.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],

@@ -17,7 +17,7 @@ export default function Select({
         padding: "4px 8px",
         borderRadius: 8,
         fontSize: 14,
-        outline: 'none',
+        outline: "none",
         border: `solid 1px ${tokens.backgroundHigher}`,
         transition: "0.25s",
         "&:hover": {

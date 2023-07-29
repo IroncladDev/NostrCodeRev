@@ -38,15 +38,14 @@ function App() {
   const { pubKey: pk, setPubKey } = usePubKey();
   const { isOpen, setIsOpen, markdown, setMarkdown } = useModal();
 
-  const [userInput, setUserInput] = useState<string>("");
   const [eventFeed, setEventFeed] = useState<NDKEvent[]>([]);
   const [sub, setSub] = useState<NDKSubscription | null>(null);
   const [diffs, setDiffs] = useState<Array<DiffFile>>([]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    if (!userInput || !ndk) return;
+  const handleSubmit = async () => {
+    if (!ndk) return;
 
-    e.preventDefault();
+    const { output } = await checkDiffs();
 
     const event = new NDKEvent(ndk, {
       kind: 68005,
@@ -54,7 +53,7 @@ function App() {
         ["j", "code-review"],
         ["bid", "10000"],
       ],
-      content: userInput,
+      content: `Here is the git diff of my code.  Please provide me with a code review:\n\n${output}`,
     } as NostrEvent);
 
     await event.sign();
@@ -80,9 +79,6 @@ function App() {
 
     console.log("signed_event", event.rawEvent());
     await event.publish();
-    setUserInput("");
-
-    console.log("Set userInput to null");
   };
   const handleZap = async (e: NDKEvent) => {
     if (typeof window.webln === "undefined") {
@@ -101,8 +97,8 @@ function App() {
   const showDiffs = async () => {
     const dffs = await checkDiffs();
 
-    if (dffs.length) {
-      setDiffs(dffs);
+    if (dffs.json.length) {
+      setDiffs(dffs.json);
     }
   }
 
@@ -218,7 +214,7 @@ ${mappedThemeValues.join("\n")}
           </div>
         </div>
 
-        {diffs.length > 0 ? <Diffs diffs={diffs} /> : null}
+        {diffs.length > 0 ? <Diffs diffs={diffs} onSubmit={handleSubmit} onRetry={showDiffs}/> : null}
 
         <Modal
           isOpen={isOpen}
