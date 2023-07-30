@@ -36,6 +36,7 @@ const styles = {
   }),
 };
 
+// Shows the status of the relay connection
 export default function RelayConnection() {
   const { status } = useRelay();
 

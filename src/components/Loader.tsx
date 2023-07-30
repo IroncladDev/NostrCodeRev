@@ -1,5 +1,6 @@
 import { tokens } from "../ui";
 
+// Spinning Loader
 export default function Loader({ size = 16 }: { size?: number }) {
   return (
     <div

@@ -4,6 +4,7 @@ import { tokens } from "../ui";
 import Button from "./Button";
 import Input from "./Input";
 
+// If the extension couldn't find your Nostr pubkey via browser extension
 export default function RelayUnReadyState() {
   const { setUrl, url } = useRelay();
   const [value, setValue] = useState(url || "");

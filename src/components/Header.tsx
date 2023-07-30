@@ -11,6 +11,7 @@ const styles = {
   },
 };
 
+// Header with title & Relay Connection indicator
 export default function Header() {
   return (
     <div className="flex-row m8 p8" css={styles.container}>

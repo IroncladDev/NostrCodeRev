@@ -4,6 +4,7 @@ import { ChevronDown, ChevronRight, RefreshCw } from "react-feather";
 import { tokens } from "../ui";
 import Button from "./Button";
 
+// A single code line
 function Line({
   type,
   content,
@@ -29,7 +30,13 @@ function Line({
   return (
     <div
       className="flex-row m12"
-      css={{ fontSize: 12, background: bg, paddingLeft: 8, paddingTop: 2, paddingBottom: 2 }}
+      css={{
+        fontSize: 12,
+        background: bg,
+        paddingLeft: 8,
+        paddingTop: 2,
+        paddingBottom: 2,
+      }}
     >
       <code
         className="flex-row"
@@ -61,13 +68,21 @@ function Line({
           {type === "context" ? " " : ""}
         </span>
       </code>
-      <pre css={{ color: fg, wordWrap: "break-word", whiteSpace: "pre-wrap", margin: 0 }}>
+      <pre
+        css={{
+          color: fg,
+          wordWrap: "break-word",
+          whiteSpace: "pre-wrap",
+          margin: 0,
+        }}
+      >
         {type === "context" ? content : content.slice(1)}
       </pre>
     </div>
   );
 }
 
+// An individual file Diff
 function Diff(props: DiffFile & { isLast: boolean }) {
   const [collapsed, setIsCollapsed] = useState(true);
 
@@ -132,6 +147,7 @@ function Diff(props: DiffFile & { isLast: boolean }) {
   );
 }
 
+// All Diffs
 export default function Diffs({
   diffs,
   onSubmit,

@@ -9,6 +9,7 @@ export const progressValue = {
   success: 3,
 };
 
+// An individual pill
 function ProgressPill({
   text,
   value,
@@ -41,12 +42,14 @@ function ProgressPill({
   );
 }
 
+// A bordered spacer between pills
 const Spacer = () => (
   <div
     css={{ flexGrow: 1, borderBottom: `solid 2px ${tokens.backgroundHighest}` }}
   />
 );
 
+// The request progress
 export default function Progress({ progress }: { progress: ProgressResult }) {
   const val = progress ? progressValue[progress] : 0;
 

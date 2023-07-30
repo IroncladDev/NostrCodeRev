@@ -1,6 +1,7 @@
 import { SelectHTMLAttributes } from "react";
 import { tokens } from "../ui";
 
+// A styled <select> element
 export default function Select({
   options,
   ...props
