@@ -10,9 +10,8 @@ export default function RelayUnReadyState() {
 
   return (
     <div
-      className="flex-col m8"
+      className="flex-col m8 p8"
       css={{
-        padding: 8,
         background: tokens.backgroundHigher,
         borderRadius: 8,
       }}

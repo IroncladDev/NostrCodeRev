@@ -29,7 +29,7 @@ function Line({
   return (
     <div
       className="flex-row m12"
-      css={{ fontSize: 12, background: bg, paddingLeft: 8 }}
+      css={{ fontSize: 12, background: bg, paddingLeft: 8, paddingTop: 2, paddingBottom: 2 }}
     >
       <code
         className="flex-row"
@@ -61,7 +61,7 @@ function Line({
           {type === "context" ? " " : ""}
         </span>
       </code>
-      <pre css={{ color: fg, wordWrap: "break-word", whiteSpace: "pre-wrap" }}>
+      <pre css={{ color: fg, wordWrap: "break-word", whiteSpace: "pre-wrap", margin: 0 }}>
         {type === "context" ? content : content.slice(1)}
       </pre>
     </div>
@@ -142,7 +142,7 @@ export default function Diffs({
   onRetry: () => void;
 }) {
   return (
-    <div css={{ padding: 8 }} className="flex-col m8">
+    <div className="flex-col m8 p8">
       <span css={{ fontSize: 14 }}>Changed Files</span>
 
       <div className="flex-col" css={{ borderRadius: 8, overflow: "hidden" }}>

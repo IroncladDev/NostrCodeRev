@@ -51,7 +51,7 @@ export default function Progress({ progress }: { progress: ProgressResult }) {
   const val = progress ? progressValue[progress] : 0;
 
   return (
-    <div className="flex-row m8" css={{ padding: 8, alignItems: "center" }}>
+    <div className="flex-row m8 p8" css={{ alignItems: "center" }}>
       <ProgressPill text="Receive" value={0} progress={val} />
       <Spacer />
       <ProgressPill text="Evaluate" value={1} progress={val} />

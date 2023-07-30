@@ -3,7 +3,6 @@ import RelayConnection from "./RelayConnection";
 
 const styles = {
   container: {
-    padding: 8,
     borderBottom: `solid 1px ${tokens.backgroundHigher}`,
   },
   spacer: { flexGrow: 1 },
@@ -14,7 +13,7 @@ const styles = {
 
 export default function Header() {
   return (
-    <div className="flex-row m8" css={styles.container}>
+    <div className="flex-row m8 p8" css={styles.container}>
       <span css={styles.name}>Nostr.it</span>
 
       <div css={styles.spacer} />

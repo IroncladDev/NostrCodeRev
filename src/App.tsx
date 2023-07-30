@@ -40,11 +40,12 @@ function App() {
       )
     : [];
 
+  // State Atoms
   const { ndk, setNDK } = useNDK();
   const { status: relayStatus, setStatus, url } = useRelay();
   const { pubKey: pk, setPubKey } = usePubKey();
-
   const [progress, setProgress] = useAtom(progressAtom);
+
   const [eventFeed, setEventFeed] = useState<
     Array<{
       status: ProgressResult;
@@ -144,13 +145,13 @@ function App() {
     }
   };
 
+  // Initialize Public Key
   useEffect(() => {
     async function init() {
       if (typeof window.nostr === "undefined") {
         return;
       }
       const pubkey = await window.nostr.getPublicKey();
-      console.log("pubkey from Alby: ", pubkey);
       setPubKey(pubkey);
     }
 
@@ -169,10 +170,6 @@ function App() {
       ndk.pool.on("relay:connect", async (r: any) => {
         setStatus("Connected");
         console.log(`Connected to a relay ${r.url}`);
-      });
-
-      ndk.pool.on("connect", async () => {
-        console.log("connected to something", ndk.pool.stats());
       });
 
       ndk.connect(2500);
@@ -220,7 +217,7 @@ ${mappedThemeValues.join("\n")}
       <main className="flex-col">
         <Header />
 
-        <div className="flex-col m8" css={{ padding: 8 }}>
+        <div className="flex-col m8 p8">
           {relayStatus !== "Connected" ? <RelayUnReadyState /> : null}
 
           <div className="flex-col m8">
@@ -238,14 +235,10 @@ ${mappedThemeValues.join("\n")}
         {progress ? <Progress progress={progress} /> : null}
 
         {eventFeed.length > 0 && (
-          <div
-            css={{
-              padding: 8,
-            }}
-          >
+          <div className="p8">
             {eventFeed
               .filter(({ status }) => status === progress)
-              .map(({ event, status }, index) => {
+              .map(({ event }, index) => {
                 // Extract the necessary tag data
                 const amountSats =
                   Number(
@@ -254,12 +247,11 @@ ${mappedThemeValues.join("\n")}
 
                 return (
                   <div
-                    className="flex-row m8"
+                    className="flex-row m8 p8"
                     key={index}
                     css={{
                       background: tokens.backgroundHigher,
                       borderRadius: 8,
-                      padding: 8,
                     }}
                   >
                     <div>
