@@ -4,11 +4,11 @@
   "tools": [
     {
       "name": "Nostr.it",
-      "icon": "/favicon.svg",
+      "icon": "/icon.png",
       "handler": "/"
     }
   ],
-  "icon": "/favicon.svg",
+  "icon": "/icon.png",
   "coverImages": null,
   scopes: [
 
