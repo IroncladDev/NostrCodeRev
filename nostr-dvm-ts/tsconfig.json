@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2022",
+    "target": "esnext",
     "module": "node16",
     "lib": ["ES2022"],
     "moduleResolution": "node16",
