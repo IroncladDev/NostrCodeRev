@@ -1,6 +1,6 @@
 import { DiffFile } from "diff2html/lib/types";
 import { useState } from "react";
-import { ChevronDown, ChevronRight, RefreshCw } from "react-feather";
+import { ChevronDown, ChevronRight } from "react-feather";
 import { tokens } from "../ui";
 import Button from "./Button";
 

@@ -60,6 +60,8 @@ function App() {
 
     const { output } = await checkDiffs();
 
+    setDiffs([]);
+
     const event = new NDKEvent(ndk, {
       kind: 68005,
       tags: [
@@ -254,9 +256,7 @@ ${mappedThemeValues.join("\n")}
                       borderRadius: 8,
                     }}
                   >
-                    <div>
-                      <Markdown markdown={event.content} />
-                    </div>
+                    <Markdown markdown={event.content} />
                     {amountSats > 0 ? (
                       <Button
                         onClick={() => handleZap(event)}

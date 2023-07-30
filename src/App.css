@@ -126,6 +126,11 @@ a {
 .markdown {
   font-size: 14px;
   color: var(--foreground-dimmer);
+  overflow-x: hidden;
+}
+
+.markdown p {
+  margin: 0;
 }
 
 .markdown > * {
@@ -148,6 +153,9 @@ a {
   padding: 8px;
   border-radius: 8px;
   font-size: 12px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow-x: hidden;
 }
 
 .markdown pre code {
@@ -157,6 +165,10 @@ a {
 
 .markdown > *:last-child {
   margin-bottom: 0;
+}
+
+.markdown ul, .markdown ol {
+  padding-left: 24px;
 }
 
 button {

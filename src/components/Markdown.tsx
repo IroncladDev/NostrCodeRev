@@ -23,7 +23,7 @@ export const Markdown = ({ markdown }: { markdown: string }) => {
   );
 
   return (
-    <span
+    <div
       className="markdown"
       dangerouslySetInnerHTML={{
         __html: renderedMarkdown,
