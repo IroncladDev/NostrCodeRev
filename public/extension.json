@@ -1,6 +1,7 @@
 {
-  "name": "Nostr.it",
+  "name": "Nostrit",
   "description": "A Nostr Vending Machine Client",
+  "longDescription": "# Nostrit\n\nNostrit is a simple Nostr vending machine (Client & Server) that allows you to perform different jobs for an amount of sats.\n\nCurrent jobs include:\n - Code Reviews\n - Image Generation (Clipdrop/Stable Diffusion)\n\nThe Client is a Replit Extension which you can install and use in the Replit Workspace.\n - [Github Repo](https://github.com/IroncladDev/NostrCodeRev)\n - [Repl Link](https://replit.com/@IroncladDev/Nostrit)\n\nThe Server is a simple and lightweight Typescript Nostr event listener and emitter.\n - [Github Repo](https://github.com/IroncladDev/NostritServer)\n - [Repl Link](https://replit.com/@IroncladDev/NostritServer)",
   "tools": [
     {
       "name": "Nostr.it",

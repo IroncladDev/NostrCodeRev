@@ -30,5 +30,6 @@ start = "typescript-language-server --stdio"
 
 [extension]
 isExtension = true
-buildCommand = "npm run build"
+buildCommand = "yarn build"
 outputDirectory = "./dist"
+extensionID = "88c127f7-dbda-442c-b080-34d42944c086"
