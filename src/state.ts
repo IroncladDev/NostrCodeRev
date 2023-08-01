@@ -10,7 +10,17 @@ export const RELAYS = [
 ];
 
 // Progress Result Type
-export type ProgressResult = null | "received" | "started" | "success";
+export type ProgressResult =
+  | null
+  | "received"
+  | "started"
+  | "success"
+  | "failed";
+
+export enum RequestType {
+  CodeReview = "Code Review",
+  StableDiffusion = "Stable Diffusion",
+}
 
 // Relay-related atoms
 export const relayAtoms = {
@@ -26,3 +36,6 @@ export const pubKeyAtom = atom<string | undefined>(undefined);
 
 // Request Progress
 export const progressAtom = atom<ProgressResult>(null);
+
+// Request Type
+export const requestTypeAtom = atom<RequestType>(RequestType.CodeReview);

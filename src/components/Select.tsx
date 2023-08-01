@@ -6,7 +6,7 @@ export default function Select({
   options,
   ...props
 }: {
-  options: string[];
+  options: Array<[string, string]>;
   children?: never;
 } & SelectHTMLAttributes<HTMLSelectElement>) {
   return (
@@ -29,9 +29,9 @@ export default function Select({
         },
       }}
     >
-      {options.map((option, index) => (
-        <option key={index} value={option}>
-          {option}
+      {options.map(([label, value], index) => (
+        <option key={index} value={value}>
+          {label}
         </option>
       ))}
     </select>

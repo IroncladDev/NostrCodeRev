@@ -1,4 +1,4 @@
-import { Check, Circle } from "react-feather";
+import { Check, Circle, X } from "react-feather";
 import { ProgressResult } from "../state";
 import { tokens } from "../ui";
 import Loader from "./Loader";
@@ -7,6 +7,7 @@ export const progressValue = {
   received: 1,
   started: 2,
   success: 3,
+  failed: 4,
 };
 
 // An individual pill
@@ -53,7 +54,22 @@ const Spacer = () => (
 export default function Progress({ progress }: { progress: ProgressResult }) {
   const val = progress ? progressValue[progress] : 0;
 
-  return (
+  return val === 4 ? (
+    <div className="flex-row" css={{ justifyContent: "center" }}>
+      <div
+        className="flex-row m8"
+        css={{
+          padding: "4px 8px",
+          borderRadius: 36,
+          background: tokens.accentNegativeDimmer,
+          alignItems: "center",
+        }}
+      >
+        <span css={{ fontSize: 12 }}>Failed</span>
+        <X />
+      </div>
+    </div>
+  ) : (
     <div className="flex-row m8 p8" css={{ alignItems: "center" }}>
       <ProgressPill text="Receive" value={0} progress={val} />
       <Spacer />

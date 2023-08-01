@@ -1,5 +1,0 @@
-{
-    "key": "d24f14e26ac66f630b989096596eddc1283342727551dcb99bf5abbda7674d96",
-    "processWithoutPaymentLimit": 1000000000, "serveResultsWithoutPaymentLimit": 1000000000, 
-    "prompt": "You are an open source developer. You will help review code in the form of git diffs and help other programmers use the best code style and techniques.  Be positive.", "jobReqMessage": "Provide an easy-to-understand and meaningful code review."
-}

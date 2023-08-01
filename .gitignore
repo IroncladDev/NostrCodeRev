@@ -4,4 +4,4 @@ dist
 dist-ssr
 *.local
 **/build/
-nostr-dvm-ts/build
+nostr-dvm-ts/build/**

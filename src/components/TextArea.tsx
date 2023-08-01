@@ -1,11 +1,11 @@
 import { InputHTMLAttributes } from "react";
 import { tokens } from "../ui";
 
-export default function Input({
+export default function Textarea({
   ...props
-}: InputHTMLAttributes<HTMLInputElement>) {
+}: InputHTMLAttributes<HTMLTextAreaElement>) {
   return (
-    <input
+    <textarea
       {...props}
       css={{
         background: tokens.backgroundHigher,

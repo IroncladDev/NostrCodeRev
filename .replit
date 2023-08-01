@@ -1,10 +1,10 @@
-run = "sh run.sh"
+run = "npm run dev"
 entrypoint = "src/App.jsx"
 
-hidden = [".config", ".git", ".gitignore"]
+hidden = [".config", ".git", ".gitignore", "package-lock.json", "nostr-dvm-ts", "dist", "tutorial", "tsconfig.json", "tsconfig.node.json", "vite.config.js.*"]
 
 [nix]
-channel = "stable-21_11"
+channel = "stable-22_11"
 
 [env]
 PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"

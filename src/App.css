@@ -130,7 +130,8 @@ a {
 }
 
 .markdown p {
-  margin: 0;
+  margin-top: 0;
+  word-wrap: break-word;
 }
 
 .markdown > * {
@@ -163,13 +164,19 @@ a {
   border-radius: 0;
 }
 
+.markdown ul, .markdown ol {
+  padding-left: 24px;
+}
+
+.markdown img {
+  border-radius: 8px;
+  max-width: 300px;
+}
+
 .markdown > *:last-child {
   margin-bottom: 0;
 }
 
-.markdown ul, .markdown ol {
-  padding-left: 24px;
-}
 
 button {
   border: none;
