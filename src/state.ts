@@ -5,7 +5,6 @@ import NDK from "@nostr-dev-kit/ndk";
 // Relay URLs
 export const RELAYS = [
   "wss://relay.damus.io",
-  // "wss://nostr.drss.io",
   "wss://nostr.swiss-enigma.ch",
   "wss://relay.f7z.io",
 ];
